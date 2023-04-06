@@ -4,7 +4,3 @@ fun split "" = []
                       orelse Char.compare(c, #".") = EQUAL
                       orelse Char.compare(c, #"-") = EQUAL 
                       orelse Char.compare(c, #" ") = EQUAL)) txt; 
-
-
-split "Bom dia,pra-você";
-

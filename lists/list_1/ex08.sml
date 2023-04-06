@@ -1,4 +1,2 @@
-fun allTrue [] = true 
-  | allTrue (x::xs) = x andalso allTrue xs;
-
-
+fun allTrue [] = false
+  | allTrue (x::xs) = x andalso if xs = [] then x else allTrue xs;

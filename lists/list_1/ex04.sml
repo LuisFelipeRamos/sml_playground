@@ -1,7 +1,5 @@
 fun max [] = 0
-  | max (x::xs) = let val currMax = (max xs) 
+  | max (x::xs) = let val currMax = if xs = [] then x else (max xs) 
                 in
                   if x > currMax then x else currMax
                 end;
-
-max [2, 3, ~1, 4, 67, 32];
