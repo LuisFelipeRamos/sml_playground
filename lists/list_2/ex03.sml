@@ -6,3 +6,6 @@ fun eval (RConst(r)) = r
   | eval (PCirculo (p)) = 2.0 * 3.14 * (eval p);
 
 eval (PQuadrado(RConst 4.0));
+
+
+(*2.3 le*)

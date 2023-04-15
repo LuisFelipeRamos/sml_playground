@@ -16,3 +16,6 @@ fun simplify (Op2(Add, IConst(0), e)) = (simplify e)
     | simplify e = e;
 
 val e = Op2 (Mul, Op2 (Add, IConst 1, IConst 0), Op2 (Add, Op2 (Or, IConst 10, IConst 12), IConst 0));
+
+
+(*2.4 le*)
