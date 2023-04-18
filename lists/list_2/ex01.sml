@@ -26,5 +26,3 @@ fun eval (IConst(i)) = i
                     in 
                       if e1_value > e2_value then 1 else 0
                    end;
-
-(*2.1 le*)
