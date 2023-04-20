@@ -3,6 +3,3 @@ fun count_main 0 = []
         in
             count(1)
         end;
-
-
-(*2.3 be nao sei se segue as regars*)
