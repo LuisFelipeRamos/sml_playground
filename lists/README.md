@@ -1,1 +1,1 @@
-## Lista da disciplina de Linguagens de Programação 2023/1
+## Listas de exercícios da disciplina de Linguagens de Programação 2023/1
