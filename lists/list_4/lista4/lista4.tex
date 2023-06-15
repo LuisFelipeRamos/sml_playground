@@ -53,8 +53,6 @@
     showstringspaces=false
 }
 
-\lstnewenvironment{prologcode}
-
 \title{Linguagens de Programação - Professor Haniel Barbosa \\ Lista de exercícios 4}
 \author{Luís Felipe Ramos Ferreira \\ 2019022553}
 
@@ -139,7 +137,7 @@
                         }
                     \end{lstlisting}
                 \item
-                    O código em \texit{C} abaixo contêm o problema da múltipla avaliação de parâmetros. Ele foi apresentado e
+                    O código em \textit{C} abaixo contêm o problema da múltipla avaliação de parâmetros. Ele foi apresentado e
                     discutido durante as aulas da disciplina.
                     
                     \begin{lstlisting}[style=CStyle]
@@ -188,31 +186,38 @@
         
     \end{enumerate}
 
+\newpage
+
 \section{Programação Lógica}
 
 \begin{enumerate}
     \item
         \begin{enumerate}[label=(\alph*)]
+
             \item
                 \begin{lstlisting}[language=Prolog]
                     firstCousin(X, Y) :- sibling(M, N), parent(M, X), parent(N, Y), not(X=Y), not(sibling(X, Y)).
                 \end{lstlisting}
+
             \item
                 \begin{lstlisting}[language=Prolog]
                     descendant(X, Y) :- parent(Y, X); (descendant(X, K), parent(Y, K)).
                 \end{lstlisting}
         \end{enumerate}
-    \item
 
+    \item
         \begin{lstlisting}[language=Prolog]
             third([_|[_|[Y|_]]], Y).
         \end{lstlisting}
+
     \item
         \begin{lstlisting}[language=Prolog]
             dupList([], []).
             dupList([H|T], [G|[G|K]]) :- dupList(T, K), H=G.
         \end{lstlisting}
+
     \item
+
         \begin{lstlisting}[language=Prolog]
             third([_|[_|[Y|_]]], Y).
         \end{lstlisting}
