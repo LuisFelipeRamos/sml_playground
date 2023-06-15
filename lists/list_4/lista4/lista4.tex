@@ -1,0 +1,221 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+\lstset{
+    language=Prolog,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\bfseries,
+    commentstyle=\itshape,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    frame=tb,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\lstnewenvironment{prologcode}
+
+\title{Linguagens de Programação - Professor Haniel Barbosa \\ Lista de exercícios 4}
+\author{Luís Felipe Ramos Ferreira \\ 2019022553}
+
+\begin{document}
+\maketitle
+
+\section{Passagem de Parâmetros}
+    \begin{enumerate}
+        \item
+            \begin{enumerate}[label=(\alph*)]
+                \item
+                    O valor impresso pelo programa é 5
+                \item
+                    O valor impresso nesse caso é 7. Como \textit{C++} possui escopo estático,
+                    o valor da variável x utilizado dentro da função \texttt{p} será o definido globalmente, isto é,
+                    onde x é giaul a zero. O variável x dentro do escopo da função \textit{main} terá sua referência
+                    passada para os dois parâmetros da função \texttt{p}. Dentro do escopo da função, o valor da vriável global
+                    x será incrementada para 1, e as variáveis y e x serão incrementadas. Como elas são referências para a variável x com
+                    valor igual a 1 no escopo da função \texttt{main}, esse mesmo valor será incrementado 2 vezes. Podemos entender x e y
+                    como duas variáveis que apontam para a mesma posição da memória. Dessa maneira, o valor nessa posição da memória será incrementado
+                    para 3, e ele será somado duas vezes no comando de impressão. Dessa forma, teremos uma saída com valor 1 + 3 + 3, ou então 7.
+            \end{enumerate}
+        \item
+            \begin{enumerate}[label=(\alph*)]
+                \item
+                    \begin{lstlisting}[style=CStyle]
+                        #define SUM(X, Y) (X) + (Y)
+                        int main(int argc, char** argv){
+                        printf("sum = %d\n", {(argc) + (argv[0][0])}); 
+                        }
+                    \end{lstlisting}
+                \item 
+                    A captura de variáveis é um problema que ocorre na expansão de macros quando dentro da definição da macro há
+                    a definição de uma variável cujo nome está sendo utilizado por outra variável passada como parâmetro para a macro, causando
+                    um conflito entre a qual variável cada operação se refere. Um exemplo da situação apresentado em sala foi
+                    o do uso da macro \textit{SWAP}, que define uma função para a troca de valores entre duas variáveis, e que dentro do escopo
+                    da macro define uma variável auxiliar denominada \texttt{temp}. Abaixo, o código disponibilizado nas notas de aula
+                    pode ser visto:
+                    
+                    \begin{lstlisting}[style=CStyle]
+                        #include "stdio.h"
+                        #define SWAP(X, Y)   \
+                            {                \
+                                int tmp = X; \
+                                X = Y;       \
+                                Y = tmp;     \
+                            }
+                        int main()
+                        {
+                            int a = 2;
+                            int tmp = 15;
+                            printf("Before: %d, %d\n", a, tmp);
+                            SWAP(a, tmp);
+                            printf("After: %d, %d\n", a, tmp);
+                        }
+                    \end{lstlisting}
+                    
+                    Neste cenário, após o pré processamento, o código da maneira a seguir. Nela, podemos ver que
+                    há a captura da variável \texttt{tmp}, e o comportamento não é o desejado, uma vez que a variável auxiliar
+                    \texttt{tmp} que é definida dentro da macro encobre e faz com que a variável \texttt{tmp} original, passada como
+                    parâmetro, se perca, e assim o \textit{swap} de variáveis não ocorre como esperado.
+                    
+                    \begin{lstlisting}[style=CStyle]
+                        #include "stdio.h"
+                        #define SWAP(X, Y)   \
+                            {                \
+                                int tmp = X; \
+                                X = Y;       \
+                                Y = tmp;     \
+                            }
+                        int main()
+                        {
+                            int a = 2;
+                            int tmp = 15;
+                            printf("Before: %d, %d\n", a, tmp);
+                            {
+                                int tmp = a;
+                                a = tmp;
+                                tmp = tmp;
+                            }
+                            printf("After: %d, %d\n", a, tmp);
+                        }
+                    \end{lstlisting}
+                \item
+                    O código em \texit{C} abaixo contêm o problema da múltipla avaliação de parâmetros. Ele foi apresentado e
+                    discutido durante as aulas da disciplina.
+                    
+                    \begin{lstlisting}[style=CStyle]
+                        #include "stdio.h"
+                        int x = 0;
+                        int foo()
+                        {
+                            x++;
+                            return 1;
+                        }
+                        #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
+                        int main()
+                        {
+                            int y = MAX(0, foo());
+                            printf("Max: %d, global x: %d\n", y, x);
+                        }
+                    \end{lstlisting}
+
+                    Após a expansão da macro, como os argumentos passados irão ser substituídos no corpo da
+                    macro, a função \texttt{foo} será chamada duas vezes, o que irá impactar no incremento da variável 
+                    global \texttt{x}. A saída do código a seguir seria então:
+                    
+                    Max: 1, global x: 2
+            \end{enumerate}
+
+            \item
+                \begin{enumerate}[label=(\alph*)]
+                    \item
+                        O valor de \texttt{z} na chamada é 30
+                    \item
+                        O valor 
+                \end{enumerate}
+            \item
+                \begin{enumerate}[label=(\alph*)]
+                    \item
+                        m1.i = 4 e m2.i = 4
+                    \item
+                        m1.i = 3 e m2.i = 3
+                    \item
+                        m1.i = 4 e m2.i = 4
+                    \item
+                        Java adota o tipo de passagem por valor para tipos primitivos
+                    \item
+                        Java adota o tipo de passagem por valor para objetos
+                \end{enumerate}
+        
+    \end{enumerate}
+
+\section{Programação Lógica}
+
+\begin{enumerate}
+    \item
+        \begin{enumerate}[label=(\alph*)]
+            \item
+                \begin{lstlisting}[language=Prolog]
+                    firstCousin(X, Y) :- sibling(M, N), parent(M, X), parent(N, Y), not(X=Y), not(sibling(X, Y)).
+                \end{lstlisting}
+            \item
+                \begin{lstlisting}[language=Prolog]
+                    descendant(X, Y) :- parent(Y, X); (descendant(X, K), parent(Y, K)).
+                \end{lstlisting}
+        \end{enumerate}
+    \item
+
+        \begin{lstlisting}[language=Prolog]
+            third([_|[_|[Y|_]]], Y).
+        \end{lstlisting}
+    \item
+        \begin{lstlisting}[language=Prolog]
+            dupList([], []).
+            dupList([H|T], [G|[G|K]]) :- dupList(T, K), H=G.
+        \end{lstlisting}
+    \item
+        \begin{lstlisting}[language=Prolog]
+            third([_|[_|[Y|_]]], Y).
+        \end{lstlisting}
+\end{enumerate}
+    
+\end{document}
