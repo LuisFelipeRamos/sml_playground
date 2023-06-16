@@ -192,25 +192,42 @@
 
 \begin{enumerate}
     \item
-        \begin{enumerate}[label=(\alph*)]
 
-            \item
-                \begin{lstlisting}[language=Prolog]
-                    firstCousin(X, Y) :- sibling(M, N), parent(M, X), parent(N, Y), not(X=Y), not(sibling(X, Y)).
-                \end{lstlisting}
+        As implementações para os predicados \textit{firstCousin} e \textit{descendant} estão abaixo dos comentários
+        que indicam a letra respectiva à cada um.
 
-            \item
-                \begin{lstlisting}[language=Prolog]
-                    descendant(X, Y) :- parent(Y, X); (descendant(X, K), parent(Y, K)).
-                \end{lstlisting}
-        \end{enumerate}
+        \begin{lstlisting}[language=Prolog]
+            parent(kim,holly).
+            parent(margaret,kim).
+            parent(margaret,kent).
+            parent(esther,margaret).
+            parent(herbert,margaret).
+            parent(herbert,jean).
+            parent(kent, bruce).
+            parent(jean, sam).
+            parent(sam, max).
+            greatGrandParent(GGP,GGC) :- parent(GGP,GP), parent(GP,P), parent(P,GGC).
+            sibling(X,Y) :- parent(P,X), parent(P, Y), not(X=Y).
+
+            % a
+            firstCousin(X, Y) :- sibling(M, N), parent(M, X), parent(N, Y), not(X=Y), not(sibling(X, Y)).
+
+            % b
+            descendant(X,Y) :- parent(Y, X); (parent(Y, K), descendant(X, K)).
+        \end{lstlisting}
 
     \item
+
+        Implementação do predicado \textit{third}.
+
         \begin{lstlisting}[language=Prolog]
             third([_|[_|[Y|_]]], Y).
         \end{lstlisting}
 
     \item
+
+        Implementação do predicado \textit{dupList}.    
+
         \begin{lstlisting}[language=Prolog]
             dupList([], []).
             dupList([H|T], [G|[G|K]]) :- dupList(T, K), H=G.
@@ -218,9 +235,12 @@
 
     \item
 
+        Implementação do predicado \textit{isEqual}.    
+
         \begin{lstlisting}[language=Prolog]
             third([_|[_|[Y|_]]], Y).
         \end{lstlisting}
+
 \end{enumerate}
     
 \end{document}
