@@ -239,10 +239,21 @@
 
     \item
 
-        Implementação do predicado \textit{isEqual}.    
+        Implementação do predicado \textit{isEqual}, com o uso do predicado da biblioteca padrão de manipulação
+        de listas em \textit{Prolog}.
 
         \begin{lstlisting}[language=Prolog]
-            third([_|[_|[Y|_]]], Y).
+            isEqual([], []).
+            isEqual(X, Y) :- subset(X, Y), subset(Y, X).
+        \end{lstlisting}
+
+    \item 
+
+        Implementação do predicao \textitt{isDifference}.
+
+        \begin{lstlisting}[language=Prolog]
+            isEqual([], []).
+            isEqual(X, Y) :- subset(X, Y), subset(Y, X).
         \end{lstlisting}
 
 \end{enumerate}
