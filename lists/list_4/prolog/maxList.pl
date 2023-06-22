@@ -1,0 +1,1 @@
+maxList(L, M) :- max_member(M, L).

@@ -196,7 +196,14 @@
               \item
                     O valor de \texttt{z} na chamada é 30
               \item
-                    O valor
+                    O programa em questão irá calcular o resultado da seguinte
+                    expressão/soma para algum valor de \textit{a} lido na
+                    entrada:
+
+                    \[
+                        \sum_{i=1}^{100} \frac{1}{{(1 + a)}^2}
+                    \]
+
           \end{enumerate}
     \item
           \begin{enumerate}[label = (\alph*)]
@@ -270,9 +277,14 @@
     \item
 
           Implementação do predicado \textit{isEqual}, com o uso do predicado
+          \textit{subSet}
           da
           biblioteca padrão de manipulação
-          de listas em \textit{Prolog}.
+          de listas em \textit{Prolog}. Podemos dizer que dois conjuntos são
+          iguais se eles são
+          subconjuntos um do outro. Poderiamos também utilizar a própria
+          implementação
+          de permutação da biblioteca citada.
 
           \begin{lstlisting}[language=Prolog]
             isEqual([], []).
@@ -281,11 +293,68 @@
 
     \item
 
-          Implementação do predicao \textit{isDifference}.
+          Implementação do predicado \textit{isDifference}. A implementação faz
+          uso
+          da função \textit{subtract} da biblioteca padrão de manipulação de
+          listas em \textit{Prolog}.
 
           \begin{lstlisting}[language=Prolog]
-            isEqual([], []).
-            isEqual(X, Y) :- subset(X, Y), subset(Y, X).
+            isDifference(X, Y, Z) :- subtract(X, Y, Z).
+        \end{lstlisting}
+
+    \item
+
+          Fato: append ([], B, B)
+          Consulta: append (X, Y, [1, 2])
+
+          Queremos mostrar que a consulta é valida. Assumimos então que ela é
+          falsa, e, a partir dos fatos,
+          concluímos falso. Logo, a consulta deve ser verdadeira, por
+          contradição.
+
+          not (append (X,Y,[1,2])) e append ([],B,B) \newline
+          Aplicando a substituição: \newline
+          \[\sigma: \left\{X=[],Y=[1,2],B=[1,2]\right\}\] \newline
+          not (append ([],[1,2],[1,2])) \newline
+          Falso \newline
+          Logo, a consulta é válida.
+          Temos uma solução em que X=[] e Y=[1,2].
+
+    \item
+
+          Implementação do predicado \textit{maxList}. A implementação faz uso
+          da função \textit{max\_member} da biblioteca padrão de manipulação de
+          listas de \textit{Prolog}.
+
+          \begin{lstlisting}[language=Prolog]
+            maxList(L, M) :- max_member(M, L).
+      \end{lstlisting}
+
+    \item
+
+          Implementação do predicado \textit{nqueen}. A implementação seguiu o
+          que foi implementado pelo
+          professor em sala de aula, em relação ao mesmo problema. A
+          implementação também baseou-se
+          na implementação do mesmo predicado mas para 8 rainhas,
+          disponibilizado no site da disciplina.
+
+          \begin{lstlisting}[language=Prolog]
+        perm([], []).
+        perm(List, [H|Perm]) :- select(H, List, Rest), perm(Rest, Perm).
+
+        test([], _, _, _).
+        test([Y|Ys], X, Cs, Ds) :-
+            C is X-Y, \+ member(C, Cs),
+            D is X+Y, \+ member(D, Ds),
+            X1 is X + 1,
+            test(Ys, X1, [C|Cs], [D|Ds]).
+
+        nqueen(Q, N) :- numlist(1, N, L) , perm(L, Q), test(Q, 1, [], []).
+
+        % aux
+        allnqueen(A, N) :- findall(Q, nqueen(Q, N), A).
+        countAllnqueen(C, N) :- allnqueen(A, N), length(A, C).
         \end{lstlisting}
 
 \end{enumerate}
