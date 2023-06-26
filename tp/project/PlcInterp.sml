@@ -172,6 +172,7 @@ fun eval ((ConI(n)), (_)) = IntV(n)
                             (
                                 case x of 
                                     (SOME expMatch1, expMatch2) => if exp <> eval(expMatch1, e) then searchForMatch(exp, xs) else eval(expMatch2, e)
+                                    | (NONE, expMatch2) => eval(expMatch2, e)
                             )
                         | _ => raise Impossible
                 )
