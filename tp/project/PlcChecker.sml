@@ -126,7 +126,7 @@ fun teval ((ConI _), _) = IntT
                         if allOptionsExpsSameType then 
                             if exp1Type = firstOptionExpType then firstOptionType
                                 else raise MatchCondTypesDiff
-                            else raise MatchResTypeDiff
+                        else raise MatchCondTypesDiff
                     end
                 else raise MatchResTypeDiff
             end
